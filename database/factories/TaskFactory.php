@@ -21,8 +21,8 @@ class TaskFactory extends Factory
     {
         return [
             'project_id' => Project::all('id')->random(),
-            'task_status_id' => TaskStatus::all('id')->random(),
-            'task_type_id' => TaskType::all('id')->random(),
+            'status_id' => TaskStatus::all('id')->random(),
+            'type_id' => TaskType::all('id')->random(),
             'title' => $this->faker->word,
             'description' => $this->faker->text,
         ];

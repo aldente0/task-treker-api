@@ -44,11 +44,17 @@ POST /api/project - adding a project
 
 GET /api/tasks/{project_id} - getting a list of tasks for a project
 
-POST /api/tasks/{project_id} - creating a task
+POST /api/tasks/{project_id} - creating a task. Expects form-data with the keys: type_id, status_id, title, description.
 
-PUT /api/task/{task_id} - updating the task
+POST /api/task/{task_id} - updating the task. expects form-data with the keys: type_id, status_id, title, description, _method:put (needed for the correct operation of the put method).
 
 DELETE /api/task/{task_id} - deleting a task
+
+### Valid key values
+
+type_id: 1 - пожелание, 2 - ошибка, 3 - авария.
+
+status_id: 1 - новая. 2 - выполняется, 3 - тестируется, 4 - завершена.
 
 
 Good luck to me!!!

@@ -9,7 +9,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        return json_encode(['data' => Project::all(['id', 'name', 'created_at'])]);
+        return Project::all(['id', 'name', 'created_at']);
     }
 
     public function store(Request $request)

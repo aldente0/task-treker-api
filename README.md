@@ -55,6 +55,3 @@ DELETE /api/task/{task_id} - deleting a task
 type_id: 1 - пожелание, 2 - ошибка, 3 - авария.
 
 status_id: 1 - новая. 2 - выполняется, 3 - тестируется, 4 - завершена.
-
-
-Good luck to me!!!

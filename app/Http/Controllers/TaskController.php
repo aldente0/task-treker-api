@@ -17,8 +17,8 @@ class TaskController extends Controller
     {
         try {
             Project::findOrFail($project_id);
-        } catch (ModelNotFoundException $e) {
-            return response(['status' => 'error', 'message' => 'Invalid query. Check project_id.'], 404);
+        } catch (Exception $e) {
+            return response(['status' => 'error', 'message' => $e->getMessage()], 404);
         }
 
         $tasks = DB::table('tasks')
@@ -45,8 +45,8 @@ class TaskController extends Controller
             Project::findOrFail($project_id);
             TaskStatus::findOrFail($request->input('status_id'));
             TaskType::findOrFail($request->input('type_id'));
-        } catch (ModelNotFoundException $e) {
-            return response(['status' => 'error', 'message' => 'Invalid query. Check project_id, status_id and type_id.'], 404);
+        } catch (Exception $e) {
+            return response(['status' => 'error', 'message' => $e->getMessage()], 404);
         }
 
         $task = new Task;
@@ -89,8 +89,8 @@ class TaskController extends Controller
     {
         try {
             $task = Task::findOrFail($task_id);
-        } catch (ModelNotFoundException $e) {
-            return  response(['status' => 'error', 'message' => 'Invalid query. Check task_id.'], 404);
+        } catch (Exception $e) {
+            return  response(['status' => 'error', 'message' => $e->getMessage()], 404);
         }
 
         if ($task->delete()) {

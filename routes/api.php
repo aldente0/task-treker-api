@@ -2,9 +2,6 @@
 
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
-use App\Http\Resources\ProjectResource;
-use App\Models\Project;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +22,7 @@ Route::controller(ProjectController::class)->group(function () {
 
 Route::controller(TaskController::class)->group(function () {
     Route::get('/tasks/{project_id}', 'index');
+    Route::post('/tasks/{project_id}', 'store');
+    Route::put('/task/{task_id}', 'update');
+    Route::delete('/task/{task_id}', 'destroy');
 });

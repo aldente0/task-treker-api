@@ -8,7 +8,7 @@ Implement the task tracker API on any php framework.
 
 ## Input data
 
-You need to implement a data schema:
+I need to implement a data schema:
 
 1) Table projects (projects)
 id - Primary key,

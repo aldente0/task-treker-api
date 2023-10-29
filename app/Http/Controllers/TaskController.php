@@ -18,7 +18,7 @@ class TaskController extends Controller
             return response()->json(['message' => $e->getMessage()], 400);
         }
 
-        $tasks = $project->tasks;
+        $tasks = $project->tasks()->orderBy('created_at', 'DESC')->get();
 
         return response()->json($tasks);
     }

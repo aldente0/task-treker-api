@@ -46,7 +46,7 @@ GET /api/tasks/{project_id} - getting a list of tasks for a project
 
 POST /api/tasks/{project_id} - creating a task. Expects form-data with the keys: type_id, status_id, title, description.
 
-POST /api/task/{task_id} - updating the task. Expects form-data with the keys: type_id, status_id, title, description, _method:put (needed for the correct operation of the put method).
+POST /api/task/{task_id} - updating the task. Expects form-data with any of keys: type_id, status_id, title or description and (required) _method:put (needed for the correct operation of the put method).
 
 or
 

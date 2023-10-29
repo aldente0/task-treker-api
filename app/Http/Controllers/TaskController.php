@@ -10,79 +10,71 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
     public function index(string $project_id)
     {
         try {
-            Project::findOrFail($project_id);
+            $project = Project::findOrFail($project_id);
         } catch (Exception $e) {
-            return response(['status' => 'error', 'message' => $e->getMessage()], 404);
+            return response()->json(['message' => $e->getMessage()], 400);
         }
 
-        $tasks = DB::table('tasks')
-            ->join('projects', 'project_id', '=', 'projects.id')
-            ->join('task_statuses', 'status_id', '=', 'task_statuses.id')
-            ->join('task_types', 'type_id', '=', 'task_types.id')
-            ->select('tasks.id', 'projects.name as project', 'task_statuses.name as status', 'task_types.name as type', 'title', 'description')
-            ->where('projects.id', '=', $project_id)
-            ->get();
+        $tasks = $project->tasks;
 
-        return response(['status' => 'ok', 'data' => $tasks]);
+        return response()->json($tasks);
     }
 
     public function store(Request $request, string $project_id)
     {
         try {
-            $request->validate([
-                'status_id' => 'integer',
-                'type_id' => 'required|integer',
-                'title' => 'required|min:2|max:200',
-                'description' => 'required|min:10',
-            ]);
-
-            Project::findOrFail($project_id);
-            TaskStatus::findOrFail($request->input('status_id'));
-            TaskType::findOrFail($request->input('type_id'));
+            $project = Project::findOrFail($project_id);
         } catch (Exception $e) {
-            return response(['status' => 'error', 'message' => $e->getMessage()], 404);
+            return response()->json(['message' => $e->getMessage()], 400);
         }
 
-        $task = new Task;
-        $task->project_id = $project_id;
-        $task->status_id = $request->input('status_id');
-        $task->type_id = $request->input('type_id');
-        $task->title = $request->input('title');
-        $task->description = $request->input('description');
+        $validator = Validator::make($request->all(), [
+            'status_id' => 'integer|required|exists:task_statuses,id',
+            'type_id' => 'required|integer|exists:task_types,id',
+            'title' => 'required|string|min:2|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $task = new Task($request->all());
+        $task->project()->associate($project);
         $task->save();
 
-        return response(['status' => 'ok', 'data' => $task]);
+        return response()->json($task, 201);
     }
 
     public function update(Request $request, string $task_id)
     {
         try {
-            $request->validate([
-                'type_id' => 'required|integer',
-                'status_id' => 'required|integer',
-                'title' => 'required|min:2|max:200',
-                'description' => 'required|min:10',
-            ]);
-
-
-            TaskStatus::findOrFail($request->input('status_id'));
             $task = Task::findOrFail($task_id);
         } catch (Exception $e) {
-            return  response(['status' => 'error', 'message' => $e->getMessage()], 404);
+            return  response()->json(['message' => $e->getMessage()], 400);
         }
 
-        $task->status_id = $request->input('status_id');
-        $task->title = $request->input('title');
-        $task->description = $request->input('description');
-        $task->save();
+        $validator = Validator::make($request->all(), [
+            'status_id' => 'sometimes|integer|exists:task_statuses,id',
+            'type_id' => 'sometimes|integer|exists:task_types,id',
+            'title' => 'sometimes|string|max:255',
+            'description' => 'sometimes|nullable|string',
+        ]);
 
-        return response(['status' => 'ok', 'data' => $task]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $task->update($request->all());
+
+        return response()->json($task);
     }
 
     public function destroy(string $task_id)
@@ -90,11 +82,11 @@ class TaskController extends Controller
         try {
             $task = Task::findOrFail($task_id);
         } catch (Exception $e) {
-            return  response(['status' => 'error', 'message' => $e->getMessage()], 404);
+            return  response(['message' => $e->getMessage()], 404);
         }
 
         if ($task->delete()) {
-            return response(['status' => 'ok', 'message' => 'deleted successfully']);
+            return response()->json(['message' => 'Task deleted successfully'], 200);
         }
     }
 }

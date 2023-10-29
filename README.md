@@ -64,7 +64,7 @@ status_id: 1 - новая. 2 - выполняется, 3 - тестируетс�
 
 Get methods successfully:
 
-{
+[
     {
         "id": 1,
         ...
@@ -73,7 +73,7 @@ Get methods successfully:
         "id": 2,
         ...
     },
-}
+]
 
 Post, put successfully:
 

@@ -21,14 +21,15 @@ class Task extends Model
         'description'
     ];
 
-    public function status(): HasOne
+    // all many-to-one
+    public function status(): BelongsTo
     {
-        return $this->hasOne(TaskStatus::class);
+        return $this->belongsTo(TaskStatus::class);
     }
 
-    public function type(): HasOne
+    public function type(): BelongsTo
     {
-        return $this->hasOne(TaskType::class);
+        return $this->belongsTo(TaskType::class);
     }
 
     public function project(): BelongsTo

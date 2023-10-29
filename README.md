@@ -14,15 +14,15 @@ I have implemented a data schema:
 id - Primary key,
 name
 
-3) task status (status)
+2) task status (status)
 id - Primary key,
 name (новая, выполняется, тестирование, завершена)
 
-5) Task type (types)
+3) Task type (types)
 id - Primary key,
 name (пожелание, ошибка, авария)
 
-7) task table (tasks)
+4) task table (tasks)
 id - Primary key,
 project_id - project id,
 status_id - status id,

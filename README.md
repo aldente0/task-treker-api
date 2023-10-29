@@ -48,6 +48,10 @@ POST /api/tasks/{project_id} - creating a task. Expects form-data with the keys:
 
 POST /api/task/{task_id} - updating the task. Expects form-data with the keys: type_id, status_id, title, description, _method:put (needed for the correct operation of the put method).
 
+or
+
+PUT /api/task/{task_id} - with Content-Type: application/x-www-form-urlencoded
+
 DELETE /api/task/{task_id} - deleting a task
 
 ### Valid key values
@@ -58,22 +62,41 @@ status_id: 1 - новая. 2 - выполняется, 3 - тестируетс�
 
 ### Response examples
 
-{
-    "status": "ok",
-    "data": [...]
-}
-
-or
+Get methods successfully:
 
 {
-    "status": "ok", 
-    "message": "deleted successfully"
+    {
+        "id": 1
+    },
+    {
+        "id": 2
+    },
 }
 
-or
+Post, put successfully:
 
 {
-    "status": "error",
-    "message": "error message"
+    {
+        "id": 1,
+        ...
+        'project': {}
+    },
 }
 
+Delete method successfully:
+
+{ 
+    "message": "Task deleted successfully"
+}
+
+Validation errors:
+
+{
+    "title": ["The title field is required."]
+}
+
+Incorrect project_id or task_id in routes:
+
+{
+    "message": "No query results for model [App\Models\Project] 35"
+}

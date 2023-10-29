@@ -4,24 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {
     public function index()
     {
-        return Project::all(['id', 'name', 'created_at']);
+        $projects = Project::all();
+
+        return response()->json($projects);
     }
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|min:2|string',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:2|string|max:255',
         ]);
 
-        $project = new Project;
-        $project->name = $request->input('name');
-        $project->save();
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
 
-        return $project;
+        $project = Project::create($request->all());
+
+        return response()->json($project, 201);
     }
 }

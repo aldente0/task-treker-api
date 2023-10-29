@@ -80,7 +80,7 @@ Post, put successfully:
 {
     {
         "id": 1,
-        ...
+        ...,
         'project': {}
     },
 }

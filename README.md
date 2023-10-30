@@ -32,6 +32,9 @@ description - detailed description
 
 ## API:
 
+### Acceptable Content-Types
+
+multipart/form-data, application/x-www-form-urlencoded
 
 ### Projects
 
@@ -41,8 +44,6 @@ POST /api/project - adding a project.  Expects data with the keys: name.
 
 
 ### Tasks
-
-Acceptable content-types: multipart/form-data, application/x-www-form-urlencoded
 
 GET /api/tasks/{project_id} - getting a list of tasks for a project
 
@@ -56,11 +57,13 @@ PUT /api/task/{task_id} - with Content-Type: application/x-www-form-urlencoded
 
 DELETE /api/task/{task_id} - deleting a task
 
+
 ### Valid key values
 
 type_id: 1 - пожелание, 2 - ошибка, 3 - авария.
 
 status_id: 1 - новая. 2 - выполняется, 3 - тестируется, 4 - завершена
+
 
 ### Response examples
 

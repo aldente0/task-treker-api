@@ -37,16 +37,18 @@ description - detailed description
 
 GET /api/projects - getting a list of projects
 
-POST /api/project - adding a project
+POST /api/project - adding a project.  Expects data with the keys: name.
 
 
 ### Tasks
 
+Acceptable content-types: multipart/form-data, application/x-www-form-urlencoded
+
 GET /api/tasks/{project_id} - getting a list of tasks for a project
 
-POST /api/tasks/{project_id} - creating a task. Expects form-data with the keys: type_id, status_id, title and description.
+POST /api/tasks/{project_id} - creating a task. Expects data with the keys: type_id, status_id, title and description.
 
-POST /api/task/{task_id} - updating the task. Expects form-data with any of keys: type_id, status_id, title or description and (required) _method:put (needed for the correct operation of the put method).
+POST /api/task/{task_id} - updating the task. Expects data with any of keys: type_id, status_id, title or description and (required) _method:put (needed for the correct operation of the put method).
 
 or
 
